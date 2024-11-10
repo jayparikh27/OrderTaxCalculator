@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace OrderTaxCalculator.Application.Core.Services
 {
-    public class OrderCalculatorService : IOrderCalculatorService
+    internal class OrderCalculatorService : IOrderCalculatorService
     {
         private readonly IValidator<OrderDTO> _orderValidator;
         private readonly IClientRepository _clientRepository;

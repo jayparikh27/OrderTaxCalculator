@@ -9,7 +9,9 @@
   <ItemGroup>
     <ProjectReference Include="..\OrderTaxCalculator.Domain\OrderTaxCalculator.Domain.csproj" />
   </ItemGroup>
-
+	<ItemGroup>
+		<InternalsVisibleTo Include="OrderTaxCalculator.Test" />
+	</ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="FluentValidation" Version="11.10.0" />
