@@ -3,7 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderTaxCalculator", "OrderTaxCalculator\OrderTaxCalculator.csproj", "{7C5586AD-7BA6-43A6-AA7F-C5E53D1D5B97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderTaxCalculator", "OrderTaxCalculator\OrderTaxCalculator.csproj", "{7C5586AD-7BA6-43A6-AA7F-C5E53D1D5B97}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{E0638618-A26C-4E7C-8522-D21DE3590E6A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderTaxCalculator.Application.Core", "OrderTaxCalculator.Application.Core\OrderTaxCalculator.Application.Core.csproj", "{9C3028B3-68CF-4CC4-8FB8-740658D95AC7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{80754342-286C-4712-AF3C-F38F02B9C41B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderTaxCalculator.Domain", "OrderTaxCalculator.Domain\OrderTaxCalculator.Domain.csproj", "{15D9E3AE-85E5-4765-B3DE-3347B22D67BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{19B7F03B-EF27-40BC-AA34-720530AC4DFB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderTaxCalculator.Persistance", "OrderTaxCalculator.Persistance\OrderTaxCalculator.Persistance.csproj", "{1E20994E-AF2E-495C-B191-17C761E9D04D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestCases", "TestCases", "{92B90864-F4D8-4B86-AE80-B6881F983B3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderTaxCalculator.Test", "OrderTaxCalculator.Test\OrderTaxCalculator.Test.csproj", "{FED006E8-84E3-4C1F-8A72-6E6B05FB0B86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +31,31 @@ Global
 		{7C5586AD-7BA6-43A6-AA7F-C5E53D1D5B97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C5586AD-7BA6-43A6-AA7F-C5E53D1D5B97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C5586AD-7BA6-43A6-AA7F-C5E53D1D5B97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C3028B3-68CF-4CC4-8FB8-740658D95AC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C3028B3-68CF-4CC4-8FB8-740658D95AC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C3028B3-68CF-4CC4-8FB8-740658D95AC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C3028B3-68CF-4CC4-8FB8-740658D95AC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15D9E3AE-85E5-4765-B3DE-3347B22D67BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15D9E3AE-85E5-4765-B3DE-3347B22D67BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15D9E3AE-85E5-4765-B3DE-3347B22D67BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15D9E3AE-85E5-4765-B3DE-3347B22D67BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E20994E-AF2E-495C-B191-17C761E9D04D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E20994E-AF2E-495C-B191-17C761E9D04D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E20994E-AF2E-495C-B191-17C761E9D04D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E20994E-AF2E-495C-B191-17C761E9D04D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FED006E8-84E3-4C1F-8A72-6E6B05FB0B86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FED006E8-84E3-4C1F-8A72-6E6B05FB0B86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FED006E8-84E3-4C1F-8A72-6E6B05FB0B86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FED006E8-84E3-4C1F-8A72-6E6B05FB0B86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9C3028B3-68CF-4CC4-8FB8-740658D95AC7} = {E0638618-A26C-4E7C-8522-D21DE3590E6A}
+		{15D9E3AE-85E5-4765-B3DE-3347B22D67BF} = {80754342-286C-4712-AF3C-F38F02B9C41B}
+		{1E20994E-AF2E-495C-B191-17C761E9D04D} = {19B7F03B-EF27-40BC-AA34-720530AC4DFB}
+		{FED006E8-84E3-4C1F-8A72-6E6B05FB0B86} = {92B90864-F4D8-4B86-AE80-B6881F983B3B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6C8D1E6E-B603-4034-AC03-F9E03D688192}

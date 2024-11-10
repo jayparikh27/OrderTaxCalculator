@@ -1,12 +1,31 @@
+using System.Reflection;
+using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using OrderTaxCalculator.Application.Core.Shared;
+using OrderTaxCalculator.Middleware;
+using OrderTaxCalculator.Persistance;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        //Implement authentiocation scheme.
+    });
+builder.Services.AddAuthorization(options =>
+{
+    // implement role based authorisation.
+});
 
+builder.Services.AddInfrastructure();
+builder.Services.AddApplication();
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddTransient<ErrorHandlerMiddleware>();
+builder.Services.AddSwaggerGen();
+builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -17,7 +36,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();
