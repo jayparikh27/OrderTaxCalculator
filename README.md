@@ -7,7 +7,7 @@ Assumptions<br />
 6.Product, productCategory, state, client ,promotion, coupon,tax Rate tables has all the required data in database. <br />
 
 
-Sample Input API body Json.
+Sample Input API body Json.<br>
 {
   "products": [
     {
