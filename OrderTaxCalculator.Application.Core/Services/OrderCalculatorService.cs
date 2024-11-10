@@ -89,6 +89,23 @@ namespace OrderTaxCalculator.Application.Core.Services
             Promotion? promotion = _promotionRepository.GetMaximumPromotionalDiscountByDate(orderDTO.OrderDate);
             Dictionary<int, decimal> couponsDictionary = _couponRepository.GetCouponsByProductIdsAndDate(productNames, orderDTO.OrderDate);
 
+
+            OrderResultDTO result = CalculateProductDiscountAndTax(orderDTO, taxRate, productsDictionary, promotion, couponsDictionary);
+
+            SaveOrder(result);
+            return result;
+        }
+
+        private void SaveOrder(OrderResultDTO result)
+        {
+            _orderGenericRepository.Add(new Order());
+            OrderResult orderResult = _mapper.Map<OrderResult>(result);
+            _orderResultGenericRepository.Add(orderResult);
+            _unitOfWork.SaveChanges();
+        }
+
+        private OrderResultDTO CalculateProductDiscountAndTax(OrderDTO orderDTO, TaxRate taxRate, Dictionary<string, Product> productsDictionary, Promotion? promotion, Dictionary<int, decimal> couponsDictionary)
+        {
             OrderResultDTO result = new OrderResultDTO();
             decimal totalOrderBeforeDiscountTax = 0;
             decimal totalCouponDiscount = 0;
@@ -119,11 +136,6 @@ namespace OrderTaxCalculator.Application.Core.Services
             result.TotalCost = totalOrderBeforeDiscountTax - totalCouponDiscount - totalPromotionalDiscount + TotalTax;
             result.PreTaxTotal = totalOrderBeforeDiscountTax - totalCouponDiscount - totalPromotionalDiscount;
             result.TaxAmount = TotalTax;
-
-            _orderGenericRepository.Add(new Order());
-            OrderResult orderResult = _mapper.Map<OrderResult>(result);
-            _orderResultGenericRepository.Add(orderResult);
-            _unitOfWork.SaveChanges();
             return result;
         }
 
