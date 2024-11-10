@@ -16,7 +16,7 @@ namespace OrderTaxCalculator.Domain.Entities
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            //Not ALL the models are created. This is just an example.
             // Configuring relationships
             modelBuilder.Entity<TaxRate>()
                 .HasOne(t => t.State)
