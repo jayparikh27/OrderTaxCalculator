@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using FluentValidation.Results;
 using OrderTaxCalculator.Application.Core.DTOs;
 using OrderTaxCalculator.Application.Core.Interfaces;
@@ -8,6 +9,7 @@ using OrderTaxCalculator.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,7 +24,10 @@ namespace OrderTaxCalculator.Application.Core.Services
         private readonly ICouponRepository _couponRepository;
         private readonly IPromotionRepository _promotionRepository;
         private readonly IGenericRepository<Order> _orderGenericRepository;
+        private readonly IMapper _mapper;
+        private readonly IGenericRepository<OrderResult> _orderResultGenericRepository;
         private readonly IUnitOfWork _unitOfWork;
+
         public OrderCalculatorService(
             IValidator<OrderDTO> orderValidator,
             IClientRepository clientRepository,
@@ -31,7 +36,9 @@ namespace OrderTaxCalculator.Application.Core.Services
             ICouponRepository couponRepository,
             IPromotionRepository promotionRepository,
             IGenericRepository<Order> orderGenericRepository,
-             IUnitOfWork unitOfWork
+            IMapper mapper,
+            IGenericRepository<OrderResult> orderResultGenericRepository,
+            IUnitOfWork unitOfWork
             )
         {
             _orderValidator = orderValidator;
@@ -41,6 +48,8 @@ namespace OrderTaxCalculator.Application.Core.Services
             _couponRepository = couponRepository;
             _promotionRepository = promotionRepository;
             _orderGenericRepository = orderGenericRepository;
+            _mapper = mapper;
+            _orderResultGenericRepository = orderResultGenericRepository;
             _unitOfWork = unitOfWork;
         }
         /// <summary>
@@ -54,7 +63,7 @@ namespace OrderTaxCalculator.Application.Core.Services
         /// <exception cref="Exception">
         /// Thrown when there is an error retrieving the state, stateTax and products.
         /// </exception>
-        public OrderResult CalculateOrderTax(OrderDTO orderDTO)
+        public OrderResultDTO CalculateOrderTax(OrderDTO orderDTO)
         {
             ValidateOrderDTO(orderDTO);
 
@@ -80,7 +89,7 @@ namespace OrderTaxCalculator.Application.Core.Services
             Promotion? promotion = _promotionRepository.GetMaximumPromotionalDiscountByDate(orderDTO.OrderDate);
             Dictionary<int, decimal> couponsDictionary = _couponRepository.GetCouponsByProductIdsAndDate(productNames, orderDTO.OrderDate);
 
-            OrderResult result = new OrderResult();
+            OrderResultDTO result = new OrderResultDTO();
             decimal totalOrderBeforeDiscountTax = 0;
             decimal totalCouponDiscount = 0;
             decimal totalPromotionalDiscount = 0;
@@ -110,8 +119,10 @@ namespace OrderTaxCalculator.Application.Core.Services
             result.TotalCost = totalOrderBeforeDiscountTax - totalCouponDiscount - totalPromotionalDiscount + TotalTax;
             result.PreTaxTotal = totalOrderBeforeDiscountTax - totalCouponDiscount - totalPromotionalDiscount;
             result.TaxAmount = TotalTax;
-            // Create AUtomapper service and convert OrderDTO to Order then save.
+
             _orderGenericRepository.Add(new Order());
+            OrderResult orderResult = _mapper.Map<OrderResult>(result);
+            _orderResultGenericRepository.Add(orderResult);
             _unitOfWork.SaveChanges();
             return result;
         }
@@ -126,7 +137,7 @@ namespace OrderTaxCalculator.Application.Core.Services
         }
 
 
-        private  decimal CalculateProductCouponDiscount(Dictionary<int, decimal> couponsDictionary, decimal productTotalPrice, Product productDetails)
+        private decimal CalculateProductCouponDiscount(Dictionary<int, decimal> couponsDictionary, decimal productTotalPrice, Product productDetails)
         {
             if (couponsDictionary != null && couponsDictionary.TryGetValue(productDetails.ID, out decimal discount))
             {

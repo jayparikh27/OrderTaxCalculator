@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Moq;
@@ -86,11 +87,17 @@ public class OrderCalculatorTests
             .Returns(promotion);
         var orderGenericRepository = new Mock<IGenericRepository<Order>>();
         orderGenericRepository.Setup(x => x.Add(It.IsAny<Order>()));
-      
+
+        var mockMapper = new Mock<IMapper>();
+        mockMapper
+           .Setup(m => m.Map<OrderResult>(It.IsAny<OrderResult>()))
+           .Returns(new OrderResult { PreTaxTotal =0});
+
+        var orderResultGenericRepository = new Mock<IGenericRepository<OrderResult>>();
+        orderResultGenericRepository.Setup(x => x.Add(It.IsAny<OrderResult>()));
+    
         var unitOfWork = new Mock<IUnitOfWork>();
         unitOfWork.Setup(x => x.SaveChanges());
-
-     
 
         OrderCalculatorService orderCalculatorService = new OrderCalculatorService(orderValidator.Object,
             clientRepository.Object,
@@ -99,6 +106,8 @@ public class OrderCalculatorTests
             couponRepository.Object,
             promotionRepository.Object,
             orderGenericRepository.Object,
+            mockMapper.Object,
+            orderResultGenericRepository.Object,
             unitOfWork.Object);
         var result = orderCalculatorService.CalculateOrderTax(orderDTO);
 
@@ -174,10 +183,16 @@ public class OrderCalculatorTests
         var orderGenericRepository = new Mock<IGenericRepository<Order>>();
         orderGenericRepository.Setup(x => x.Add(It.IsAny<Order>()));
 
+        var mockMapper = new Mock<IMapper>();
+        mockMapper
+           .Setup(m => m.Map<OrderResult>(It.IsAny<OrderResult>()))
+           .Returns(new OrderResult { PreTaxTotal = 0 });
+
+        var orderResultGenericRepository = new Mock<IGenericRepository<OrderResult>>();
+        orderResultGenericRepository.Setup(x => x.Add(It.IsAny<OrderResult>()));
+
         var unitOfWork = new Mock<IUnitOfWork>();
         unitOfWork.Setup(x => x.SaveChanges());
-
-
 
         OrderCalculatorService orderCalculatorService = new OrderCalculatorService(orderValidator.Object,
             clientRepository.Object,
@@ -186,6 +201,8 @@ public class OrderCalculatorTests
             couponRepository.Object,
             promotionRepository.Object,
             orderGenericRepository.Object,
+            mockMapper.Object,
+            orderResultGenericRepository.Object,
             unitOfWork.Object);
         var result = orderCalculatorService.CalculateOrderTax(orderDTO);
 
@@ -260,10 +277,16 @@ public class OrderCalculatorTests
         var orderGenericRepository = new Mock<IGenericRepository<Order>>();
         orderGenericRepository.Setup(x => x.Add(It.IsAny<Order>()));
 
+        var mockMapper = new Mock<IMapper>();
+        mockMapper
+           .Setup(m => m.Map<OrderResult>(It.IsAny<OrderResult>()))
+           .Returns(new OrderResult { PreTaxTotal = 0 });
+
+        var orderResultGenericRepository = new Mock<IGenericRepository<OrderResult>>();
+        orderResultGenericRepository.Setup(x => x.Add(It.IsAny<OrderResult>()));
+
         var unitOfWork = new Mock<IUnitOfWork>();
         unitOfWork.Setup(x => x.SaveChanges());
-
-
 
         OrderCalculatorService orderCalculatorService = new OrderCalculatorService(orderValidator.Object,
             clientRepository.Object,
@@ -272,6 +295,8 @@ public class OrderCalculatorTests
             couponRepository.Object,
             promotionRepository.Object,
             orderGenericRepository.Object,
+            mockMapper.Object,
+            orderResultGenericRepository.Object,
             unitOfWork.Object);
         var result = orderCalculatorService.CalculateOrderTax(orderDTO);
 
@@ -346,10 +371,16 @@ public class OrderCalculatorTests
         var orderGenericRepository = new Mock<IGenericRepository<Order>>();
         orderGenericRepository.Setup(x => x.Add(It.IsAny<Order>()));
 
+        var mockMapper = new Mock<IMapper>();
+        mockMapper
+           .Setup(m => m.Map<OrderResult>(It.IsAny<OrderResult>()))
+           .Returns(new OrderResult { PreTaxTotal = 0 });
+
+        var orderResultGenericRepository = new Mock<IGenericRepository<OrderResult>>();
+        orderResultGenericRepository.Setup(x => x.Add(It.IsAny<OrderResult>()));
+
         var unitOfWork = new Mock<IUnitOfWork>();
         unitOfWork.Setup(x => x.SaveChanges());
-
-
 
         OrderCalculatorService orderCalculatorService = new OrderCalculatorService(orderValidator.Object,
             clientRepository.Object,
@@ -358,6 +389,8 @@ public class OrderCalculatorTests
             couponRepository.Object,
             promotionRepository.Object,
             orderGenericRepository.Object,
+            mockMapper.Object,
+            orderResultGenericRepository.Object,
             unitOfWork.Object);
 
 

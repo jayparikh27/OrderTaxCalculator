@@ -9,6 +9,6 @@ namespace OrderTaxCalculator.Application.Core.Interfaces
 {
     public interface IOrderCalculatorService
     {
-        OrderResult CalculateOrderTax(OrderDTO orderDTO);
+        OrderResultDTO CalculateOrderTax(OrderDTO orderDTO);
     }
 }
